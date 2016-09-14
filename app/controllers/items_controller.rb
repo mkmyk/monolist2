@@ -8,15 +8,18 @@ class ItemsController < ApplicationController
         keyword: params[:q],
         imageFlag: 1,
       )
+      #直接@itemに代入できないのか？
       @items = response.first(20)
     end
   end
 
   def show
+    set_item
   end
 
   private
   def set_item
     @item = Item.find(params[:id])
   end
+  
 end

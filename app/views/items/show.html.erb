@@ -3,13 +3,13 @@
     <div class="item-single-main">
       <div class="image">
         <div class="img-wrap">
-          <% #TODO 商品イメージ %>
+          <%=image_tag item['mediumImageUrls'].first['imageUrl'].gsub('?_ex=128x128', '')  %>
           <%= image_tag("no-image.png" , alt: @item.title) %>
         </div>
       </div>
       <div class="title">
         <% #TODO 商品タイトル %>
-        仮タイトル
+        <%= @item.name %>
       </div>
       <%= render 'action' , item: @item %>
     </div>
@@ -18,7 +18,12 @@
         <h4 class="side-box-title">Haveしたユーザー</h4>
         <div class="side-box-body">
           <% # TODO Haveしたユーザー一覧 %>
-
+            @item.have_users.includes(:user)
+            <ul>
+              <% @item.have_users. each do | have_user | %>
+                <li><%= have_user.name %></li >
+              <% end %>
+            </ul>
         </div>
       </div>
       <div class="side-box">
@@ -29,7 +34,7 @@
       </div>
       <div class="text-center">
         <% #TODO 正しいリンク先に %>
-        <%= link_to('楽天詳細ページへ', '#') %>
+          <%= link_to('楽天詳細ページへ', 'item['itemUrl']') %>
       </div>
     </div>
   </div>
