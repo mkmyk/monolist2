@@ -31,29 +31,37 @@ class User < ActiveRecord::Base
   def following?(other_user)
     following_users.include?(other_user)
   end
-
   ## TODO 実装
   def have(item)
-    haves.create(user: self, item: @item)
+    haves.create(user: self, item: item)
   end
 
   def unhave(item)
-    haves.find_by(user: self, item: @item).destroy
+    haves.find_by(user: self, item: item).destroy
   end
 
   def have?(item)
-    haves.include?(user: self, item: @item)
+    if haves.find_by(user: self, item: item) then
+      return true
+    else
+      return false
+    end
   end
 
   def want(item)
-    wants.create(user: self, item: @item)
+    wants.create(user: self, item: item)
   end
 
   def unwant(item)
-    wants.find_by(user: self, item: @item).destroy
+    wants.find_by(user: self, item: item).destroy
   end
 
   def want?(item)
-    wants.include?(user: self, item: @item)
+    if wants.find_by(user: self, item: item) then
+      return true
+    else
+      return false
+    end
   end
+
 end

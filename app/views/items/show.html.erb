@@ -3,13 +3,16 @@
     <div class="item-single-main">
       <div class="image">
         <div class="img-wrap">
-          <%=image_tag item['mediumImageUrls'].first['imageUrl'].gsub('?_ex=128x128', '')  %>
-          <%= image_tag("no-image.png" , alt: @item.title) %>
+            <% if @item.medium_image!="" %>
+              <%=image_tag @item.medium_image.gsub('?_ex=128x128', '')  %>
+            <% else %>
+              <%= image_tag("no-image.png" , alt: @item.title) %>
+            <% end %>
         </div>
       </div>
       <div class="title">
         <% #TODO 商品タイトル %>
-        <%= @item.name %>
+        <%= @item.title %>
       </div>
       <%= render 'action' , item: @item %>
     </div>
@@ -18,23 +21,29 @@
         <h4 class="side-box-title">Haveしたユーザー</h4>
         <div class="side-box-body">
           <% # TODO Haveしたユーザー一覧 %>
-            @item.have_users.includes(:user)
-            <ul>
-              <% @item.have_users. each do | have_user | %>
-                <li><%= have_user.name %></li >
+              <% @item.have_users.each do | have_user | %>
+                <%= link_to user_path(have_user) do %>
+                    <span class="gravatar"><%= gravatar_for have_user , size: 20 %></span>
+                <% end %>
+                <%= have_user.name %>
               <% end %>
-            </ul>
         </div>
       </div>
       <div class="side-box">
         <h4 class="side-box-title">Wantしたユーザー</h4>
         <div class="side-box-body">
           <% # TODO Wantしたユーザー一覧 %>
+              <% @item.want_users.each do | want_user | %>
+                <span class="gravatar">
+                    <%= gravatar_for want_user , size: 20 %>
+                </span>
+                <%= want_user.name %>
+              <% end %>
         </div>
       </div>
       <div class="text-center">
         <% #TODO 正しいリンク先に %>
-          <%= link_to('楽天詳細ページへ', 'item['itemUrl']') %>
+          <%= link_to('楽天詳細ページへ', @item.detail_page_url) %>
       </div>
     </div>
   </div>
